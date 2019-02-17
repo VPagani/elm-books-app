@@ -21,7 +21,7 @@ import Utils
 -- MAIN
 
 
-main : Program (Maybe String) Model Msg
+main : Program String Model Msg
 main =
     Browser.application
         { init = init
@@ -45,14 +45,9 @@ port clear : (() -> msg) -> Sub msg
 port reset : (() -> msg) -> Sub msg
 
 
-init : Maybe String -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
-init maybeSerializedData _ key =
-    case maybeSerializedData of
-        Just serializedData ->
-            update (UpdatedData serializedData) (Model (initState key) initData)
-
-        Nothing ->
-            update SaveData (Model (initState key) initData)
+init : String -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init serializedData _ key =
+    update (UpdatedData serializedData) (Model (initState key) initData)
 
 
 emptyData : Data
